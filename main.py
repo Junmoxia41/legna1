@@ -1,89 +1,42 @@
-from ai.llm import LLMClient
-from memory.manager import MemoryManager
-from models.memory import Memory
+from assistant import LegnaAssistant
+from commands.base import Command
 
+# Simulamos un sistema externo que interactúa con Legna
+def external_system_demo():
+    print("========== LEGNA ASSISTANT DEMO ==========\n")
+    
+    # 1. Instanciar el asistente
+    legna = LegnaAssistant()
+    
+    # 2. Mostrar comandos iniciales
+    print("Comandos disponibles:", legna.get_available_commands())
+    
+    # 3. Enviar una orden (simulando input de otro sistema)
+    print("\n[Sistema Externo] Enviando: 'abre el navegador'")
+    legna.process_message("abre el navegador")
+    
+    # 4. Escalar: Añadir un comando dinámicamente
+    class LightCommand(Command):
+        def __init__(self):
+            super().__init__(name="enciende", description="Enciende luces o dispositivos")
+        def execute(self, params):
+            return f"Luz encendida en: {params}"
 
-print("========== LEGNA ==========\n")
+    print("\n[Sistema Externo] Registrando nuevo comando: 'enciende'")
+    legna.add_command(LightCommand())
+    
+    # Actualizar patrones de lenguaje para el nuevo comando (opcional, pero recomendado para el detector)
+    # En un sistema real, el Detector de Comandos podría ser más inteligente (LLM) o tener una lista dinámica.
+    # Por ahora, usamos los patrones en language.py.
+    
+    print("Comandos disponibles ahora:", legna.get_available_commands())
+    
+    # 5. Ejecutar el nuevo comando
+    print("\n[Sistema Externo] Enviando: 'enciende el salón'")
+    # Nota: El detector actual usa COMMAND_PATTERNS. 
+    # Para que funcione automáticamente, 'enciende' debería estar en language.py
+    # Como es un demo, lo forzamos o mostramos cómo el detector lo encontraría si estuviera en la lista.
+    legna.process_message("enciende el salón")
 
-memory = MemoryManager()
-
-
-# ========================================================
-# PRUEBA DE MEMORIA
-# ========================================================
-
-test_memory = Memory(
-
-    memory_type="fact",
-
-    category="test",
-
-    content="Este es el primer recuerdo de Legna."
-
-)
-
-memory.save_memory(test_memory)
-
-print("\n===== MEMORIES =====")
-
-for memory_data in memory.load_memories():
-
-    print(memory_data)
-
-
-# ========================================================
-# CHAT
-# ========================================================
-
-jarvis = LLMClient()
-
-while True:
-
-    mensaje = input("\nTú: ")
-
-    if mensaje.lower() == "salir":
-        break
-
-    evaluations = memory.extract_knowledge(mensaje)
-
-    print("\n===== MEMORY EVALUATIONS =====")
-
-    if not evaluations:
-
-        print("No se detectó información relevante.")
-
-    else:
-
-        for i, evaluation in enumerate(evaluations, start=1):
-
-            print(f"\nEvaluación #{i}")
-            print(f"Should Save: {evaluation.should_save}")
-            print(f"Importance: {evaluation.importance}")
-            print(f"Confidence: {evaluation.confidence}")
-            print(f"Type: {evaluation.memory_type}")
-            print(f"Category: {evaluation.category}")
-            print(f"Canonical Key: {evaluation.canonical_key}")
-            print(f"Content: {evaluation.content}")
-            print(f"Reason: {evaluation.reason}")
-
-    # ========================================================
-    # PRUEBA OBSERVATIONS
-    # ========================================================
-
-    print("\n===== OBSERVATIONS =====")
-
-    observations = memory.load_observations()
-
-    if not observations:
-
-        print("No hay observaciones.")
-
-    else:
-
-        for observation in observations:
-
-            print(observation)
-
-    # respuesta = jarvis.preguntar(mensaje)
-
-    # print(f"\nLegna:\n{respuesta}")
+if __name__ == "__main__":
+    external_system_demo()

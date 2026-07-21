@@ -1,0 +1,1 @@
+print('Hola desde script dinámico de Legna')
