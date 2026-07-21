@@ -84,3 +84,32 @@ CONTRADICTION_PATTERNS = [
 REPETITION_PATTERNS = [
 
 ]
+
+
+# =========================================================
+# COMMANDS
+# =========================================================
+
+COMMAND_PATTERNS = [
+
+    "abre",
+
+    "ejecuta",
+
+    "busca",
+
+    "dime",
+
+    "crea",
+
+    "borra",
+
+    "actualiza",
+    
+    "reproducir",
+    
+    "pon",
+    
+    "enciende"
+
+]

@@ -4,6 +4,7 @@ from memory.detectors.goal_detector import GoalDetector
 from memory.detectors.habit_detector import HabitDetector
 from memory.detectors.contradiction_detector import ContradictionDetector
 from memory.detectors.repetition_detector import RepetitionDetector
+from memory.detectors.command_detector import CommandDetector
 
 
 def load_detectors():
@@ -20,6 +21,8 @@ def load_detectors():
 
         ContradictionDetector(),
 
-        RepetitionDetector()
+        RepetitionDetector(),
+        
+        CommandDetector()
 
     ]

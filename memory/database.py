@@ -133,6 +133,41 @@ class Database:
 
         )
         """)
+        
+        # Tabla de Identidad Personal (Protegida)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS user_identity (
+            key TEXT PRIMARY KEY,
+            value TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """)
+
+        # Tabla de Preferencias de UI y Sistema
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS system_preferences (
+            key TEXT PRIMARY KEY,
+            value TEXT
+        )
+        """)
+
+    # =========================================================
+    # IDENTITY
+    # =========================================================
+
+    def save_identity_data(self, key, value):
+        with sqlite3.connect(self.database_path) as connection:
+            cursor = connection.cursor()
+            cursor.execute("""
+                INSERT OR REPLACE INTO user_identity (key, value, updated_at)
+                VALUES (?, ?, CURRENT_TIMESTAMP)
+            """, (key, value))
+
+    def get_full_identity(self):
+        with sqlite3.connect(self.database_path) as connection:
+            cursor = connection.cursor()
+            cursor.execute("SELECT key, value FROM user_identity")
+            return dict(cursor.fetchall())
 
     # =========================================================
     # METADATA

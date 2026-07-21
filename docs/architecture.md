@@ -156,6 +156,34 @@ LongTermMemory
 
 ---
 
+## Sistema de comandos
+
+Responsable de ejecutar acciones basadas en las intenciones detectadas.
+
+Flujo:
+
+KnowledgeEngine (CommandDetector)
+
+↓
+
+MemoryEvaluation (type="command")
+
+↓
+
+MemoryManager
+
+↓
+
+CommandManager
+
+↓
+
+Comando Específico (Ejecución)
+
+El sistema de comandos está diseñado para ser plug-and-play. Otros sistemas pueden registrar nuevos comandos en el CommandManager en tiempo de ejecución.
+
+---
+
 Ambos sistemas evolucionarán de forma independiente.
 
 El sistema de conocimiento interpreta información.

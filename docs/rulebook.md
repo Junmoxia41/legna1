@@ -219,6 +219,20 @@ Nunca dependerán unos de otros.
 
 ---
 
+# Sistema de comandos
+
+El sistema de comandos debe ser extensible y escalable.
+
+Cada comando debe ser una clase independiente que herede de una clase base común.
+
+El CommandManager será el encargado de registrar, eliminar y ejecutar los comandos.
+
+El sistema de memoria actuará como filtro previo, identificando cuándo un mensaje contiene una orden y delegando su ejecución al sistema de comandos.
+
+Legna debe poder recibir órdenes de otros sistemas a través de una interfaz limpia (Assistant Facade), sin depender exclusivamente de un input de usuario directo.
+
+---
+
 # Proactividad
 
 Legna no deberá limitarse a responder preguntas.

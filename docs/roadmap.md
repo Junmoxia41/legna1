@@ -165,10 +165,10 @@ Pendiente:
 
 # FASE 4 - Comprensión
 
-- [ ] JSON estructurado.
-- [ ] Interpretación de intenciones.
-- [ ] Sistema de comandos.
-- [ ] Clasificación automática de solicitudes.
+- [x] JSON estructurado.
+- [x] Interpretación de intenciones.
+- [x] Sistema de comandos (Implementado v0.4).
+- [x] Clasificación automática de solicitudes.
 - [ ] Primeras acciones sobre Windows.
 
 ---
