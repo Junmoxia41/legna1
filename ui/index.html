@@ -69,7 +69,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            background-image: radial-gradient(circle at 50% 50%, rgba(10, 10, 25, 0.5) 0%, transparent 100%);
+            background-image: radial-gradient(circle at 50% 50%, rgba(10, 10, 25, 0.5) 0%, transparent: 100%);
         }
 
         .top-bar {
@@ -295,9 +295,57 @@
             </div>
         </div>
 
-        <!-- OTRAS SECCIONES (Placeholders) -->
-        <div id="workspace-section" class="section"><h2>WORKSPACE</h2><p class="subtitle">Gestión de proyectos y archivos activos.</p></div>
-        <div id="memory-section" class="section"><h2>NEURAL MEMORY</h2><p class="subtitle">Acceso a la base de datos de conocimientos y recuerdos consolidados.</p></div>
+        <!-- WORKSPACE SECTION -->
+        <div id="workspace-section" class="section">
+            <h2>WORKSPACE</h2>
+            <p class="subtitle">Gestión de proyectos y archivos activos.</p>
+
+            <!-- HERO CARD: Crear Nuevo Proyecto -->
+            <div style="background: #0A0B10; border: 2px solid #00D9FF; border-radius: 24px; padding: 40px; text-align: center; margin: 30px 0;">
+                <h3 style="color: #00D9FF; font-size: 28px; margin-bottom: 10px;">Crear Nuevo Proyecto</h3>
+                <p style="color: #8899AA; margin-bottom: 25px;">Inicia un nuevo entorno de trabajo profesional</p>
+                
+                <button onclick="createNewProject()" 
+                        style="background: #00D9FF; color: black; border: none; padding: 14px 40px; border-radius: 14px; font-weight: bold; font-size: 15px; cursor: pointer;">
+                    CREAR PROYECTO
+                </button>
+                
+                <div style="margin-top: 20px;">
+                    <button onclick="importProject()" 
+                            style="background: transparent; border: 2px solid #00D9FF; color: #00D9FF; padding: 14px 40px; border-radius: 14px; font-weight: bold; cursor: pointer;">
+                        IMPORTAR PROYECTO
+                    </button>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 15px; color: #00D9FF;">Tus Proyectos</h3>
+            <div id="projects-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+
+        <!-- MEMORY SECTION -->
+        <div id="memory-section" class="section">
+            <h2>NEURAL MEMORY</h2>
+            <p class="subtitle">Cerebro de Legna - Recuerdos categorizados</p>
+            
+            <div style="margin: 30px 0; text-align: center;">
+                <svg width="120" height="120" viewBox="0 0 100 100" style="filter: drop-shadow(0 0 20px #00D9FF);">
+                    <defs>
+                        <linearGradient id="brainGrad" x1="20" y1="20" x2="80" y2="80">
+                            <stop offset="0%" stop-color="#00D9FF"/>
+                            <stop offset="100%" stop-color="#6A5CFF"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M25 35 Q30 20 50 25 Q70 20 75 35 Q85 45 78 60 Q85 75 65 80 Q50 88 35 80 Q20 75 25 55 Q18 45 25 35" 
+                          fill="none" stroke="url(#brainGrad)" stroke-width="6"/>
+                    <circle cx="35" cy="42" r="4" fill="#00D9FF"/>
+                    <circle cx="50" cy="35" r="4" fill="#00D9FF"/>
+                    <circle cx="65" cy="48" r="4" fill="#6A5CFF"/>
+                </svg>
+                <h3 style="margin-top: 15px; color: #00D9FF;">CEREBRO DE LEGNA</h3>
+            </div>
+
+            <div id="memory-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px;"></div>
+        </div>
         <div id="agents-section" class="section"><h2>NEURAL AGENTS</h2><p class="subtitle">Estado y control de agentes autónomos especializados.</p></div>
         <div id="profile-section" class="section"><h2>USER PROFILE</h2><p class="subtitle">Configuración de identidad y preferencias del sistema.</p></div>
     </div>
@@ -312,6 +360,18 @@
         <div style="font-size: 20px; font-weight: 800; color: var(--cyan); margin: 10px 0;">82%</div>
         <div style="width: 100%; height: 4px; background: #111; border-radius: 2px; overflow: hidden;">
             <div style="width: 82%; height: 100%; background: var(--cyan);"></div>
+        </div>
+
+        <!-- Botones de herramientas -->
+        <div style="margin-top: 30px;">
+            <button onclick="window.pywebview.api.open_monaco()" 
+                    style="width:100%; margin-bottom:10px; padding:12px; background:#6A5CFF; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
+                Abrir Monaco Editor
+            </button>
+            <button onclick="window.pywebview.api.open_terminal()" 
+                    style="width:100%; padding:12px; background:#00D9FF; color:black; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
+                Abrir Terminal Real
+            </button>
         </div>
     </div>
 
@@ -346,6 +406,78 @@
             div.innerText = text;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
+        }
+
+        // ==================== NUEVAS FUNCIONES ====================
+
+        async function loadProjects() {
+            try {
+                const projects = await window.pywebview.api.get_projects();
+                const container = document.getElementById('projects-list');
+                container.innerHTML = '';
+
+                projects.forEach(p => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'background:#0A0B10;border:1px solid #1F2633;border-radius:14px;padding:16px;display:flex;justify-content:space-between;align-items:center;';
+                    div.innerHTML = `
+                        <div>
+                            <strong style="color:white;">${p.name}</strong><br>
+                            <small style="color:#667788;">${p.file_count || 0} archivos</small>
+                        </div>
+                        <button onclick="window.pywebview.api.open_monaco('${p.path}')" 
+                                style="background:#00D9FF;color:black;border:none;padding:8px 18px;border-radius:8px;font-weight:bold;cursor:pointer;">
+                            Abrir
+                        </button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch(e) {
+                console.log("Error cargando proyectos");
+            }
+        }
+
+        async function loadMemories() {
+            try {
+                const memories = await window.pywebview.api.get_neural_memories();
+                const container = document.getElementById('memory-list');
+                container.innerHTML = '';
+
+                memories.forEach(m => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'background:#0A0B10;border:1px solid #1F2633;border-radius:14px;padding:16px;';
+                    div.innerHTML = `
+                        <div style="color:#00D9FF;font-size:11px;margin-bottom:4px;">${m.category}</div>
+                        <div style="font-weight:bold;color:white;">${m.key}</div>
+                        <div style="color:#8899AA;margin-top:4px;">${m.value}</div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch(e) {
+                console.log("Error cargando memorias");
+            }
+        }
+
+        function createNewProject() {
+            const name = prompt("Nombre del nuevo proyecto:");
+            if (name) {
+                window.pywebview.api.create_project(name).then(() => {
+                    loadProjects();
+                    alert("Proyecto creado exitosamente");
+                });
+            }
+        }
+
+        function importProject() {
+            alert("Función de importación disponible en la versión completa");
+        }
+
+        // Cargar datos al cambiar de sección
+        const originalShowSection = showSection;
+        window.showSection = function(id, btn) {
+            originalShowSection(id, btn);
+            
+            if (id === 'workspace') loadProjects();
+            if (id === 'memory') loadMemories();
         }
 
         // CARGA

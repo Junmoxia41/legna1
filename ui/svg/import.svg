@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="importGrad" x1="25" y1="25" x2="80" y2="75" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00D9FF"/>
+      <stop offset="100%" stop-color="#6A5CFF"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Arrow down -->
+  <path d="M50 18 L50 55" fill="none" stroke="url(#importGrad)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M35 42 L50 58 L65 42" fill="none" stroke="url(#importGrad)" stroke-width="7" stroke-linecap="round"/>
+  
+  <!-- Folder base -->
+  <rect x="22" y="62" width="56" height="22" rx="4" ry="4" 
+        fill="none" stroke="#00D9FF" stroke-width="5"/>
+  
+  <!-- Small lines on folder -->
+  <line x1="30" y1="70" x2="70" y2="70" stroke="#6A5CFF" stroke-width="2"/>
+  <line x1="30" y1="76" x2="55" y2="76" stroke="#6A5CFF" stroke-width="2"/>
+</svg>

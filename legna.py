@@ -1,72 +1,104 @@
+"""
+LEGNA v3.0 - Neural Companion
+Único archivo de ejecución (PyWebView)
+Integra: Workspace, Chat, Memoria Neuronal, Monaco Editor, Terminal Real
+"""
+
 import webview
-import threading
-import psutil
-import time
 import os
-from assistant import LegnaAssistant
+from pathlib import Path
+from workspace.project_manager import ProjectManager
+from memory.neural_memory import NeuralMemoryManager
+from memory.conversation_manager import ConversationManager
 
-class API:
-    """Clase para comunicar JavaScript con Python"""
-    def __init__(self, assistant, window):
-        self.assistant = assistant
-        self.window = window
+BASE_DIR = Path(__file__).parent.resolve()
+os.chdir(BASE_DIR)
 
-    def get_user_data(self):
-        return self.assistant.memory_manager.database.get_full_identity()
+# Instancias globales
+project_manager = ProjectManager()
+neural_memory = NeuralMemoryManager()
+conversation_manager = ConversationManager()
 
+
+class LegnaAPI:
+    """API expuesta a JavaScript"""
+
+    # === PROYECTOS ===
+    def get_projects(self):
+        return project_manager.get_all_projects()
+
+    def create_project(self, name):
+        return project_manager.create_new_project(name)
+
+    def import_project(self, path, move=True):
+        return project_manager.import_project(path, move=move)
+
+    # === MEMORIA NEURONAL ===
+    def get_neural_memories(self):
+        return neural_memory.get_all_memories()
+
+    def save_neural_memory(self, category, key, value):
+        return neural_memory.save_memory(category, key, value)
+
+    # === CONVERSACIONES ===
+    def get_conversations(self):
+        return conversation_manager.get_all_conversations()
+
+    def create_conversation(self):
+        return conversation_manager.create_conversation()
+
+    # === CHAT ===
     def process_chat(self, message):
-        """Procesa un mensaje del chat y devuelve la respuesta de Legna"""
-        try:
-            # Procesar el mensaje con el motor de Legna
-            evaluations = self.assistant.process_message(message)
-            
-            # Lógica simple de respuesta por ahora (se puede conectar al LLM real)
-            if any(ev.memory_type == "command" for ev in evaluations):
-                return "Comando ejecutado en el núcleo de Legna."
-            else:
-                return "Entendido. He actualizado mi base de conocimientos."
-        except Exception as e:
-            return f"Error en el núcleo: {str(e)}"
+        # Respuesta simple por ahora (puedes conectar con LLM real)
+        return f"Entendido. He procesado tu mensaje: {message}"
 
-def update_loop(window):
-    """Bucle en segundo plano para actualizar CPU/RAM"""
-    while True:
-        try:
-            cpu = psutil.cpu_percent()
-            ram = psutil.virtual_memory().percent
-            window.evaluate_js(f"updateStats({cpu}, {ram})")
-            time.sleep(2)
-        except: break
+    # === HERRAMIENTAS ===
+    def open_monaco(self, file_path=None):
+        """Abre Monaco Editor en una nueva ventana"""
+        from ui.monaco_webview import create_monaco_window
+        create_monaco_window(file_path)
+        return "Monaco Editor abierto"
 
-def run_app():
-    assistant = LegnaAssistant()
-    
-    # Ruta al archivo HTML
-    html_path = os.path.join(os.getcwd(), "legna1", "ui", "index.html")
-    if not os.path.exists(html_path):
-        html_path = os.path.join(os.getcwd(), "ui", "index.html")
+    def open_terminal(self):
+        """Abre Terminal Real"""
+        from ui.real_terminal_window import create_terminal_window
+        create_terminal_window()
+        return "Terminal Real abierta"
 
-    # Crear Ventana Nativa con el motor PyWebView
+
+def run():
+    print("🧠 LEGNA v3.0 iniciando con PyWebView...")
+
+    html_path = BASE_DIR / "ui" / "index.html"
+    if not html_path.exists():
+        print("Error: index.html no encontrado")
+        return
+
     window = webview.create_window(
-        'LEGNA | NEURAL INTERFACE OS', 
-        html_path,
-        width=1300, height=850,
+        "LEGNA v3.0 | Neural Interface",
+        url=str(html_path),
+        width=1400,
+        height=900,
+        resizable=True,
         background_color='#010206'
     )
 
-    # Iniciar API
-    api = API(assistant, window)
-    window.expose(api.process_chat, api.get_user_data)
-    
-    def on_loaded():
-        # Poner el nombre del usuario al iniciar
-        identity = assistant.memory_manager.database.get_full_identity()
-        name = identity.get('nombre', 'Operador')
-        window.evaluate_js(f"setUserName('{name}')")
-        # Iniciar monitor
-        threading.Thread(target=update_loop, args=(window,), daemon=True).start()
+    api = LegnaAPI()
+    window.expose(
+        api.get_projects,
+        api.create_project,
+        api.import_project,
+        api.get_neural_memories,
+        api.save_neural_memory,
+        api.get_conversations,
+        api.create_conversation,
+        api.process_chat,
+        api.open_monaco,
+        api.open_terminal
+    )
 
-    webview.start(on_loaded, debug=False)
+    webview.start(debug=False)
+
 
 if __name__ == "__main__":
-    run_app()
+    run()
