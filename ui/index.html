@@ -18,6 +18,12 @@
             --glow: rgba(0, 217, 255, 0.4);
         }
 
+        * { scrollbar-width: thin; scrollbar-color: #00AFCF #060B12; }
+        *::-webkit-scrollbar { width: 10px; height: 10px; }
+        *::-webkit-scrollbar-track { background: #060B12; border: 1px solid #142433; }
+        *::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #00D9FF, #356B90); border: 2px solid #060B12; border-radius: 9px; }
+        *::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7CF1FF, #6A5CFF); }
+        *::-webkit-scrollbar-corner { background: #060B12; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: var(--bg);
@@ -117,6 +123,54 @@
         .card-icon { width: 40px; height: 40px; margin: 0 auto 20px auto; background: rgba(255,255,255,0.03); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
         .card-icon svg { width: 22px; height: 22px; }
         .card b { font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text); }
+        .profile-form { max-width: 760px; background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .profile-form label { display: flex; flex-direction: column; gap: 8px; color: #91A0B0; font-size: 12px; letter-spacing: .5px; }
+        .profile-form input, .profile-form textarea { background: #0A0B10; color: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px; outline: none; font: inherit; }
+        .profile-form textarea { min-height: 92px; resize: vertical; }
+        .profile-form input:focus, .profile-form textarea:focus { border-color: var(--cyan); }
+        .profile-actions { display: flex; align-items: center; gap: 14px; }
+        .primary-btn { background: var(--cyan); color: #001015; border: 0; border-radius: 10px; padding: 12px 18px; cursor: pointer; font-weight: 800; }.secondary-btn { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); border-radius: 10px; padding: 11px 15px; cursor: pointer; font-weight: 700; }
+        #profile-status { color: var(--cyan); font-size: 13px; }
+
+        /* HOLOGRAPHIC NEURAL MEMORY */
+        .memory-hero { position: relative; min-height: 400px; display: grid; place-items: center; overflow: hidden; margin: 0 0 24px; border: 1px solid rgba(0,217,255,.14); border-radius: 24px; background: radial-gradient(ellipse at center, rgba(0,217,255,.11), rgba(7,12,23,.24) 38%, transparent 72%); isolation: isolate; }
+        .memory-hero::before { content: ''; position: absolute; inset: 0; opacity: .28; background-image: linear-gradient(rgba(0,217,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,217,255,.1) 1px, transparent 1px); background-size: 32px 32px; transform: perspective(430px) rotateX(62deg) translateY(120px) scale(1.7); transform-origin: center bottom; animation: grid-drift 9s linear infinite; z-index: -1; }
+        .memory-hero::after { content: ''; position: absolute; width: 88%; height: 1px; top: 50%; background: linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow: 0 0 18px var(--cyan); opacity: .58; animation: scanner 3.5s ease-in-out infinite; }
+        @keyframes grid-drift { to { background-position: 0 32px, 32px 0; } }
+        @keyframes scanner { 0%,100% { transform: translateY(-108px); opacity: .12; } 50% { transform: translateY(108px); opacity: .8; } }
+        .holo-stage { width: 330px; height: 300px; position: relative; transform-style: preserve-3d; animation: holo-float 6s ease-in-out infinite; }
+        @keyframes holo-float { 0%,100% { transform: perspective(800px) rotateX(7deg) rotateY(-9deg) translateY(0); } 50% { transform: perspective(800px) rotateX(-5deg) rotateY(10deg) translateY(-13px); } }
+        .holo-brain { width: 100%; height: 100%; filter: drop-shadow(0 0 9px rgba(0,217,255,.9)) drop-shadow(0 0 32px rgba(0,217,255,.35)); overflow: visible; }
+        .brain-shell { fill: rgba(0,217,255,.045); stroke: #00d9ff; stroke-width: 2; stroke-linejoin: round; }
+        .brain-fold { fill: none; stroke: rgba(119,101,255,.9); stroke-width: 1.3; stroke-dasharray: 5 4; }
+        .synapse { stroke: #00d9ff; stroke-width: 1.25; opacity: .7; stroke-dasharray: 4 5; animation: impulse 1.8s linear infinite; }
+        .synapse.violet { stroke: #806cff; animation-delay: -.9s; }
+        @keyframes impulse { to { stroke-dashoffset: -30; } }
+        .neuron { fill: #9cfcff; stroke: white; stroke-width: .6; transform-origin: center; animation: neuron-pulse 2.2s ease-in-out infinite; }
+        .neuron.n2 { animation-delay: -.7s; }.neuron.n3 { animation-delay: -1.3s; }.neuron.n4 { animation-delay: -1.8s; }
+        @keyframes neuron-pulse { 0%,100% { opacity: .65; r: 3; } 50% { opacity: 1; r: 5.5; } }
+        .orbit { position: absolute; border: 1px solid rgba(0,217,255,.46); border-radius: 50%; top: 50%; left: 50%; transform-style: preserve-3d; }
+        .orbit.one { width: 278px; height: 95px; margin:-48px 0 0 -139px; transform: rotateX(68deg) rotateZ(14deg); animation: orbit-one 7s linear infinite; }
+        .orbit.two { width: 235px; height: 235px; margin:-118px 0 0 -118px; border-color: rgba(128,108,255,.38); transform: rotateY(66deg); animation: orbit-two 9s linear infinite reverse; }
+        @keyframes orbit-one { to { transform: rotateX(68deg) rotateZ(374deg); } } @keyframes orbit-two { to { transform: rotateY(66deg) rotateZ(360deg); } }
+        .holo-caption { position:absolute; bottom:19px; text-align:center; font: 11px 'JetBrains Mono'; letter-spacing:2px; color:#74eefd; text-shadow:0 0 8px var(--cyan); }
+        .holo-caption span { color:#6f62ff; }
+        .memory-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:min(660px,90%); position:absolute; bottom:54px; }
+        .memory-metric { padding:10px 13px; background:rgba(3,9,18,.68); border:1px solid rgba(0,217,255,.17); border-radius:10px; text-align:center; backdrop-filter:blur(5px); }
+        .memory-metric b { display:block; color:var(--cyan); font:700 18px 'JetBrains Mono'; }.memory-metric span { color:#708095; font:9px 'JetBrains Mono'; letter-spacing:1px; }
+        @media (max-width: 800px) { .memory-hero { min-height:360px; }.memory-summary { bottom:52px; }.holo-stage { transform:scale(.84); }.profile-grid { grid-template-columns:1fr; } }
+
+        /* AGENT OS */
+        .agent-console { max-width: 930px; display:grid; grid-template-columns:minmax(360px,1.15fr) minmax(270px,.85fr); gap:20px; }
+        .agent-tree, .model-panel { background:var(--glass); border:1px solid var(--border); border-radius:18px; padding:22px; }
+        .tree-root { color:#eafcff; font:700 16px 'Orbitron'; letter-spacing:1px; padding-bottom:16px; border-bottom:1px solid var(--border); }.tree-root small { color:#617287; font:10px 'JetBrains Mono'; margin-left:9px; }
+        .agent-node { position:relative; display:grid; grid-template-columns:18px 1fr auto; gap:10px; align-items:center; padding:13px 0 13px 21px; border-bottom:1px solid rgba(31,38,51,.55); }.agent-node::before { content:'├'; position:absolute; left:2px; color:#385267; }.agent-node:last-child::before { content:'└'; }.agent-node:last-child { border-bottom:0; }
+        .agent-name { color:#e3eaf1; font:600 13px 'JetBrains Mono'; }.agent-role { color:#6f8092; font-size:11px; margin-top:3px; }.agent-model { color:#8495a7; font:10px 'JetBrains Mono'; max-width:155px; text-align:right; }.agent-model select { max-width:150px; background:#09121c; color:#9deeff; border:1px solid #214257; border-radius:5px; padding:4px; font:9px 'JetBrains Mono'; }
+        .state-dot { width:10px; height:10px; border-radius:50%; background:#657486; box-shadow:0 0 8px currentColor; }.state-idle { color:#00e88a;background:#00e88a; }.state-thinking { color:#ffd74e;background:#ffd74e; }.state-waiting { color:#00b7ff;background:#00b7ff; }.state-switching { color:#ff9d3d;background:#ff9d3d; }.state-error { color:#ff5d6c;background:#ff5d6c; }.state-offline { color:#657486;background:#657486; }
+        .model-panel h3 { color:var(--cyan);font:700 12px 'Orbitron';letter-spacing:1px;margin-bottom:15px; }.runtime-row,.slot-row,.catalog-row { padding:11px 0;border-bottom:1px solid rgba(31,38,51,.55);font:11px 'JetBrains Mono'; }.runtime-row:last-of-type,.catalog-row:last-child { border-bottom:0; }.online { color:#00e88a; }.offline { color:#718093; }.runtime-url { color:#66788a;display:block;margin-top:4px;overflow:hidden;text-overflow:ellipsis; }
+        .model-meta { color:#8293a5;font-size:10px;margin-top:4px; }.scan-btn { width:100%;margin-top:16px;padding:10px;background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:9px;font-weight:bold;cursor:pointer; }.scan-btn:hover { background:rgba(0,217,255,.1); }
+        .model-folder { color:#66788a;font:10px 'JetBrains Mono';line-height:1.5;word-break:break-all;margin-bottom:12px; }.agent-hint { color:#8293a5;font-size:12px;line-height:1.55;margin-top:15px; } @media(max-width:850px){.agent-console{grid-template-columns:1fr;}}
 
         /* CHAT INTERFACE */
         #chat-section { padding: 0; position: relative; }
@@ -207,10 +261,37 @@
         .splash-logo { width: 100px; height: 100px; fill: var(--cyan); filter: drop-shadow(0 0 25px var(--cyan)); }
         .loader-bar { width: 350px; height: 2px; background: #111; margin-top: 50px; overflow: hidden; }
         .loader-progress { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 20px var(--cyan); transition: 0.1s; }
+        .legna-modal[hidden] { display: none !important; }
+        .legna-modal { position: fixed; inset: 0; z-index: 1500; display: grid; place-items: center; background: rgba(1, 4, 10, .72); backdrop-filter: blur(9px); }
+        .legna-modal-card { width: min(440px, calc(100vw - 40px)); padding: 26px; border-radius: 18px; background: linear-gradient(145deg, #0D1521, #070B12); border: 1px solid rgba(0, 217, 255, .42); box-shadow: 0 20px 70px rgba(0,0,0,.6), 0 0 30px rgba(0,217,255,.11); }
+        .legna-modal-kicker { color: #00D9FF; font: 10px 'JetBrains Mono'; letter-spacing: 2px; }
+        .legna-modal h3 { margin: 10px 0 8px; color: white; font: 700 18px 'Orbitron', sans-serif; }
+        .legna-modal p { color: #8192A5; margin: 0 0 18px; font-size: 13px; }
+        .legna-modal input { width: 100%; border: 1px solid #243B4D; outline: none; border-radius: 9px; padding: 12px; background: #050A10; color: white; font: 13px 'JetBrains Mono'; }
+        .legna-modal input:focus { border-color: #00D9FF; box-shadow: 0 0 15px rgba(0,217,255,.13); }
+        .legna-modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+        .legna-modal button { border: 1px solid #2C4154; border-radius: 8px; padding: 9px 14px; background: transparent; color: #B7CBDB; cursor: pointer; font-weight: 600; }
+        .legna-modal button.primary { background: #00D9FF; border-color: #00D9FF; color: #001218; }
+        .mode-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+        .mode-choice button { text-align: left; min-height: 88px; color: #AFC8D8; background: #07101A; border-color: #244559; }
+        .mode-choice button:hover { border-color: #00D9FF; background: #0B2430; }
+        .mode-choice b { display: block; color: #8DF2FF; margin-bottom: 8px; }.mode-choice span { font-size: 11px; color: #7F94A5; }
 
     </style>
 </head>
 <body>
+
+    <div id="legna-modal" class="legna-modal" hidden>
+        <div class="legna-modal-card" role="dialog" aria-modal="true" aria-labelledby="legna-modal-title">
+            <div class="legna-modal-kicker">LEGNA WORKSPACE</div><h3 id="legna-modal-title">Nuevo proyecto</h3>
+            <p id="legna-modal-description">Crea un entorno de trabajo local.</p>
+            <input id="legna-modal-input" maxlength="100" autocomplete="off">
+            <div class="legna-modal-actions"><button id="legna-modal-cancel">Cancelar</button><button id="legna-modal-confirm" class="primary">Crear proyecto</button></div>
+        </div>
+    </div>
+
+    <div id="project-mode-modal" class="legna-modal" hidden><div class="legna-modal-card"><div class="legna-modal-kicker">LEGNA IDE · EJECUCIÓN</div><h3 id="project-mode-title">¿Cómo abrir este proyecto?</h3><p id="project-mode-description">Elige el nivel de permisos antes de iniciar el IDE.</p><div class="mode-choice"><button id="project-mode-standard"><b>Modo estándar</b><span id="project-mode-standard-desc">Permisos normales y recomendados.</span></button><button id="project-mode-admin"><b>Administrador</b><span id="project-mode-admin-desc">Windows solicitará confirmación UAC.</span></button></div></div></div>
+    <div id="project-import-modal" class="legna-modal" hidden><div class="legna-modal-card"><div class="legna-modal-kicker">LEGNA WORKSPACE</div><h3>Importar proyecto</h3><p id="import-folder-name">Selecciona cómo integrar la carpeta elegida.</p><div class="mode-choice"><button id="import-reference"><b>Mantener ubicación</b><span>Crea una referencia sin mover archivos.</span></button><button id="import-move"><b>Mover a Workspace</b><span>Mueve la carpeta al espacio de LEGNA.</span></button></div><div class="legna-modal-actions"><button id="import-cancel">Cancelar</button></div></div></div>
 
     <div id="splash">
         <svg class="splash-logo" viewBox="0 0 100 100"><path d="M20 20 L20 80 L80 80 L80 70 L35 70 L35 20 Z" /></svg>
@@ -325,29 +406,60 @@
         <!-- MEMORY SECTION -->
         <div id="memory-section" class="section">
             <h2>NEURAL MEMORY</h2>
-            <p class="subtitle">Cerebro de Legna - Recuerdos categorizados</p>
-            
-            <div style="margin: 30px 0; text-align: center;">
-                <svg width="120" height="120" viewBox="0 0 100 100" style="filter: drop-shadow(0 0 20px #00D9FF);">
-                    <defs>
-                        <linearGradient id="brainGrad" x1="20" y1="20" x2="80" y2="80">
-                            <stop offset="0%" stop-color="#00D9FF"/>
-                            <stop offset="100%" stop-color="#6A5CFF"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M25 35 Q30 20 50 25 Q70 20 75 35 Q85 45 78 60 Q85 75 65 80 Q50 88 35 80 Q20 75 25 55 Q18 45 25 35" 
-                          fill="none" stroke="url(#brainGrad)" stroke-width="6"/>
-                    <circle cx="35" cy="42" r="4" fill="#00D9FF"/>
-                    <circle cx="50" cy="35" r="4" fill="#00D9FF"/>
-                    <circle cx="65" cy="48" r="4" fill="#6A5CFF"/>
-                </svg>
-                <h3 style="margin-top: 15px; color: #00D9FF;">CEREBRO DE LEGNA</h3>
+            <p class="subtitle">Núcleo de memoria visual — recuerdos categorizados y conexiones activas.</p>
+            <div class="memory-hero">
+                <div class="holo-stage" aria-label="Cerebro holográfico de Legna">
+                    <div class="orbit one"></div><div class="orbit two"></div>
+                    <svg class="holo-brain" viewBox="0 0 330 300" role="img">
+                        <defs><radialGradient id="brainGlow"><stop stop-color="#00d9ff" stop-opacity=".26"/><stop offset="1" stop-color="#00d9ff" stop-opacity="0"/></radialGradient></defs>
+                        <ellipse cx="165" cy="145" rx="138" ry="118" fill="url(#brainGlow)" opacity=".6"/>
+                        <path class="brain-shell" d="M87 100 C72 68 96 42 126 52 C145 31 180 38 193 56 C228 42 253 66 244 96 C267 120 253 153 235 163 C239 194 212 216 185 207 C164 230 128 224 116 203 C80 210 63 176 78 150 C57 133 66 109 87 100 Z"/>
+                        <path class="brain-fold" d="M92 101 C119 83 139 96 146 120 C132 142 110 135 92 151 M147 58 C158 86 179 91 195 73 M180 105 C210 91 233 110 222 134 C207 148 198 161 216 180 M116 202 C128 177 149 172 166 193 M157 121 C174 138 172 167 153 177"/>
+                        <line class="synapse" x1="105" y1="100" x2="145" y2="120"/><line class="synapse violet" x1="145" y1="120" x2="190" y2="105"/><line class="synapse" x1="190" y1="105" x2="220" y2="135"/><line class="synapse violet" x1="145" y1="120" x2="154" y2="176"/><line class="synapse" x1="154" y1="176" x2="118" y2="185"/><line class="synapse violet" x1="154" y1="176" x2="207" y2="172"/>
+                        <circle class="neuron" cx="105" cy="100" r="3"/><circle class="neuron n2" cx="145" cy="120" r="3"/><circle class="neuron n3" cx="190" cy="105" r="3"/><circle class="neuron n4" cx="220" cy="135" r="3"/><circle class="neuron n2" cx="154" cy="176" r="3"/><circle class="neuron n3" cx="118" cy="185" r="3"/><circle class="neuron n4" cx="207" cy="172" r="3"/>
+                    </svg>
+                </div>
+                <div class="memory-summary">
+                    <div class="memory-metric"><b id="memory-count">0</b><span>RECUERDOS</span></div>
+                    <div class="memory-metric"><b id="memory-categories">0</b><span>CATEGORÍAS</span></div>
+                    <div class="memory-metric"><b id="memory-state">IDLE</b><span>ESTADO</span></div>
+                </div>
+                <div class="holo-caption">NEURAL CORE <span>//</span> HOLOGRAPHIC LINK ACTIVE</div>
             </div>
-
-            <div id="memory-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px;"></div>
+            <div id="memory-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:15px;"></div>
         </div>
-        <div id="agents-section" class="section"><h2>NEURAL AGENTS</h2><p class="subtitle">Estado y control de agentes autónomos especializados.</p></div>
-        <div id="profile-section" class="section"><h2>USER PROFILE</h2><p class="subtitle">Configuración de identidad y preferencias del sistema.</p></div>
+        <div id="agents-section" class="section">
+            <h2>NEURAL AGENTS</h2>
+            <p class="subtitle">Un solo cerebro, especializaciones internas y un máximo de dos modelos activos.</p>
+            <div class="agent-console">
+                <div class="agent-tree"><div class="tree-root">◉ LEGNA BRAIN <small id="brain-runtime">DESCUBRIENDO RUNTIME…</small></div><div id="agent-tree-list"></div><p class="agent-hint">Los agentes comparten identidad, memoria y políticas de Legna. Las herramientas externas siguen desactivadas hasta contar con confirmación y permisos.</p></div>
+                <div class="model-panel"><h3>MODEL MANAGER</h3><div id="runtime-list"></div><div id="model-slots"></div><h3 style="margin-top:18px;">CATÁLOGO GGUF</h3><div id="model-folder" class="model-folder"></div><div id="model-catalog"></div><h3 style="margin-top:18px;">ACTIVIDAD RECIENTE</h3><div id="agent-activity"></div><button class="scan-btn" onclick="importModel()">IMPORTAR MODELO GGUF</button><button class="scan-btn" onclick="loadAgents(true)">ESCANEAR MODELOS</button></div>
+            </div>
+        </div>
+        <div id="profile-section" class="section">
+            <h2>USER PROFILE</h2>
+            <p class="subtitle">Tu identidad se guarda localmente en la memoria neural y se utiliza para personalizar el contexto.</p>
+            <form id="profile-form" class="profile-form" onsubmit="saveProfile(event)">
+                <div class="profile-grid">
+                    <label>Nombre<input id="profile-nombre" maxlength="80" placeholder="Tu nombre"></label>
+                    <label>Segundo nombre<input id="profile-segundo_nombre" maxlength="80" placeholder="Opcional"></label>
+                    <label>Edad<input id="profile-edad" type="number" min="1" max="130" placeholder="Opcional"></label>
+                    <label>Ubicación<input id="profile-ubicacion" maxlength="120" placeholder="Ciudad o zona"></label>
+                    <label>Pronombres<input id="profile-pronombres" maxlength="60" placeholder="Opcional"></label>
+                    <label>Idioma principal<input id="profile-idioma" maxlength="60" placeholder="Ejemplo: Español"></label>
+                    <label>Zona horaria<input id="profile-zona_horaria" maxlength="80" placeholder="Ejemplo: America/Chicago"></label>
+                    <label>Ocupación o rol<input id="profile-ocupacion" maxlength="120" placeholder="Ejemplo: desarrollador"></label>
+                </div>
+                <label>Habilidades y herramientas<textarea id="profile-habilidades" maxlength="1000" placeholder="Lenguajes, herramientas y conocimientos que ya manejas."></textarea></label>
+                <label>Intereses<textarea id="profile-intereses" maxlength="1000" placeholder="Temas que te interesan aprender o explorar."></textarea></label>
+                <label>Objetivos<textarea id="profile-objetivos" maxlength="1000" placeholder="Objetivos personales, profesionales o del proyecto."></textarea></label>
+                <label>Estilo de comunicación<input id="profile-estilo_comunicacion" maxlength="300" placeholder="Ejemplo: directo, técnico y conciso"></label>
+                <label>Accesibilidad y preferencias de interfaz<input id="profile-accesibilidad" maxlength="500" placeholder="Ejemplo: fuente grande, poco movimiento, alto contraste"></label>
+                <label>Preferencias<textarea id="profile-preferencias" maxlength="1000" placeholder="Cómo prefieres que LEGNA te ayude."></textarea></label>
+                <label>Biografía o contexto voluntario<textarea id="profile-bio" maxlength="4000" placeholder="Información que quieras que LEGNA tenga en cuenta. Evita incluir secretos, contraseñas o datos bancarios."></textarea></label>
+                <div class="profile-actions"><button class="primary-btn" type="submit">GUARDAR PERFIL</button><button class="secondary-btn" type="button" onclick="importBiography()">IMPORTAR BIOGRAFÍA</button><span id="profile-status" aria-live="polite"></span></div>
+            </form>
+        </div>
     </div>
 
     <div class="right-panel">
@@ -356,11 +468,12 @@
             <svg viewBox="0 0 24 24" fill="#00D9FF" style="width:40px;height:40px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
             <div style="margin-top:10px">CORE_ACTIVE</div>
         </div>
-        <div class="stat-label">CONTEXT USED</div>
-        <div style="font-size: 20px; font-weight: 800; color: var(--cyan); margin: 10px 0;">82%</div>
+        <div class="stat-label">MEMORY CONTEXT</div>
+        <div id="context-percent" style="font-size: 20px; font-weight: 800; color: var(--cyan); margin: 10px 0;">0%</div>
         <div style="width: 100%; height: 4px; background: #111; border-radius: 2px; overflow: hidden;">
-            <div style="width: 82%; height: 100%; background: var(--cyan);"></div>
+            <div id="context-progress" style="width: 0%; height: 100%; background: var(--cyan); transition: width .3s;"></div>
         </div>
+        <div id="system-detail" style="margin-top:16px;color:#667788;font:11px 'JetBrains Mono';line-height:1.6;">Cargando telemetría…</div>
 
         <!-- Botones de herramientas -->
         <div style="margin-top: 30px;">
@@ -368,140 +481,244 @@
                     style="width:100%; margin-bottom:10px; padding:12px; background:#6A5CFF; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
                 Abrir Monaco Editor
             </button>
-            <button onclick="window.pywebview.api.open_terminal()" 
+            <button onclick="openTerminal()"
                     style="width:100%; padding:12px; background:#00D9FF; color:black; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">
-                Abrir Terminal Real
+                Abrir Terminal
             </button>
         </div>
     </div>
 
     <script>
-        // NAVEGACIÓN
+        let currentConversationId = null;
+        const apiReady = () => window.pywebview && window.pywebview.api;
+        const byId = id => document.getElementById(id);
+        const escapeHTML = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+
         function showSection(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id + '-section').classList.add('active');
+            byId(id + '-section').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        // CHAT
-        function sendMessage() {
-            let input = document.getElementById('user-input');
-            let text = input.value.trim();
-            if(!text) return;
-
-            addMessage(text, 'user');
-            input.value = '';
-            
-            // Llamar a Python para procesar
-            window.pywebview.api.process_chat(text).then(response => {
-                addMessage(response, 'legna');
-            });
+            if (btn) btn.classList.add('active');
+            if (id === 'workspace') loadProjects();
+            if (id === 'memory') loadMemories();
+            if (id === 'profile') loadProfile();
+            if (id === 'agents') loadAgents();
         }
 
         function addMessage(text, sender) {
-            let box = document.getElementById('chat-messages');
-            let div = document.createElement('div');
+            const box = byId('chat-messages'), div = document.createElement('div');
             div.className = 'message ' + sender;
             div.innerText = text;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
         }
 
-        // ==================== NUEVAS FUNCIONES ====================
+        async function sendMessage() {
+            const input = byId('user-input'), text = input.value.trim();
+            if (!text || !apiReady()) return;
+            addMessage(text, 'user'); input.value = ''; input.disabled = true;
+            try {
+                const result = await window.pywebview.api.process_chat(text, currentConversationId);
+                if (!result.ok) throw new Error(result.error || 'No se pudo procesar el mensaje.');
+                currentConversationId = result.conversation_id;
+                addMessage(result.response, 'legna');
+                refreshContext(result.context);
+                loadAgents();
+            } catch (error) {
+                addMessage('No pude procesar el mensaje: ' + error.message, 'legna');
+            } finally { input.disabled = false; input.focus(); }
+        }
+
+        async function loadSystemStats() {
+            if (!apiReady()) return;
+            try {
+                const stats = await window.pywebview.api.get_system_stats();
+                byId('cpu-val').innerText = `${stats.cpu_percent}%`;
+                byId('ram-val').innerText = `${stats.ram_percent}%`;
+                byId('system-detail').innerText = `${stats.host}\n${stats.platform}\nRAM ${stats.ram_used_gb} / ${stats.ram_total_gb} GB`;
+            } catch (_) { byId('system-detail').innerText = 'Telemetría no disponible'; }
+        }
+
+        function refreshContext(context) {
+            const count = (context?.commands?.length || 0) + (context?.projects?.length || 0) + Object.values(context?.identity || {}).filter(Boolean).length;
+            const percentage = Math.min(100, count * 10);
+            byId('context-percent').innerText = percentage + '%';
+            byId('context-progress').style.width = percentage + '%';
+        }
+
+        const stateLabels = { idle:'LIBRE', thinking:'PENSANDO', waiting:'ESPERANDO', switching:'CAMBIANDO', error:'ERROR', offline:'OFFLINE' };
+        async function loadAgents(forceScan = false) {
+            if (!apiReady()) return;
+            try {
+                const dashboard = forceScan ? await window.pywebview.api.rescan_models() : await window.pywebview.api.get_agents_dashboard();
+                const agentState = forceScan ? await window.pywebview.api.get_agents_dashboard() : dashboard;
+                const data = forceScan ? { agents: agentState.agents || [], activity: agentState.activity || [], models: dashboard } : dashboard;
+                const models = data.models, activeRuntime = models.runtimes.find(r => r.id === models.active_runtime);
+                byId('brain-runtime').innerText = activeRuntime ? activeRuntime.label.toUpperCase() : 'NINGÚN RUNTIME ONLINE';
+                byId('agent-tree-list').innerHTML = data.agents.map(agent => { const selected = agent.assigned_model || 'auto'; const options = models.options.map(option => `<option value="${escapeHTML(option.id)}" ${option.id === selected ? 'selected' : ''}>${escapeHTML(option.name)}</option>`).join(''); return `<div class="agent-node"><i class="state-dot state-${escapeHTML(agent.state)}"></i><div><div class="agent-name">${escapeHTML(agent.name)}</div><div class="agent-role">${escapeHTML(agent.role)}</div></div><div class="agent-model"><select data-agent-model="${escapeHTML(agent.id)}">${options}</select><br><span class="state-${escapeHTML(agent.state)}">${stateLabels[agent.state] || agent.state}</span></div></div>`; }).join('');
+                document.querySelectorAll('[data-agent-model]').forEach(select => select.onchange = async () => { try { await window.pywebview.api.assign_agent_model(select.dataset.agentModel, select.value); await loadAgents(); } catch (error) { alert('No se pudo asignar el modelo: ' + error.message); } });
+                const ratingsByModel = Object.fromEntries(models.ratings.map(r => [r.model_id, r]));
+                byId('runtime-list').innerHTML = models.runtimes.map(runtime => `<div class="runtime-row"><span class="${runtime.status}">● ${runtime.status === 'online' ? 'ONLINE' : 'OFFLINE'}</span> — ${escapeHTML(runtime.label)}<span class="runtime-url">${escapeHTML(runtime.url)}${runtime.models.length ? ' · ' + runtime.models.map(id => `${escapeHTML(id)} ★${ratingsByModel[id]?.stars ?? 3.0}`).join(' · ') : ''}</span></div>`).join('');
+                byId('model-slots').innerHTML = models.slots.map(slot => `<div class="slot-row">SLOT ${slot.slot} · ${escapeHTML(slot.purpose)}<span class="runtime-url">${slot.model ? escapeHTML(slot.model) : 'Disponible'}</span></div>`).join('');
+                byId('model-folder').innerText = `Carpeta: ${models.models_dir}`;
+                byId('agent-activity').innerHTML = data.activity.length ? data.activity.map(task => `<div class="catalog-row"><span class="${task.status === 'completed' ? 'online' : task.status === 'error' ? 'state-error' : 'state-thinking'}">●</span> ${escapeHTML(task.intent.toUpperCase())}<div class="model-meta">${escapeHTML(task.agents.join(' → '))} · ${escapeHTML(task.status)}</div></div>`).join('') : '<div class="catalog-row model-meta">Sin tareas todavía.</div>';
+                byId('model-catalog').innerHTML = models.catalog.length ? models.catalog.map(model => `<div class="catalog-row"><span class="${model.valid ? 'online' : 'offline'}">${model.valid ? '●' : '●'}</span> ${escapeHTML(model.name)}<div class="model-meta">${model.size_gb} GB · ${escapeHTML(model.type)} · ${model.valid ? 'GGUF válido' : 'archivo no válido'}</div></div>`).join('') : '<div class="catalog-row model-meta">No hay archivos GGUF. Copia modelos en data/models/.</div>';
+            } catch (error) { byId('agent-tree-list').innerHTML = `<div class="agent-hint" style="color:#ff7180">No se pudo cargar Agent OS: ${escapeHTML(error.message)}</div>`; }
+        }
+
+        async function importModel() {
+            if (!apiReady()) return;
+            try {
+                const path = await window.pywebview.api.select_model_file();
+                if (!path) return;
+                await window.pywebview.api.import_model(path);
+                await loadAgents(true);
+            } catch (error) { alert('No se pudo importar el modelo: ' + error.message); }
+        }
 
         async function loadProjects() {
+            if (!apiReady()) return;
+            const container = byId('projects-list');
             try {
                 const projects = await window.pywebview.api.get_projects();
-                const container = document.getElementById('projects-list');
-                container.innerHTML = '';
-
+                container.innerHTML = projects.length ? '' : '<div style="color:#667788;padding:16px;">Aún no hay proyectos.</div>';
                 projects.forEach(p => {
                     const div = document.createElement('div');
                     div.style.cssText = 'background:#0A0B10;border:1px solid #1F2633;border-radius:14px;padding:16px;display:flex;justify-content:space-between;align-items:center;';
-                    div.innerHTML = `
-                        <div>
-                            <strong style="color:white;">${p.name}</strong><br>
-                            <small style="color:#667788;">${p.file_count || 0} archivos</small>
-                        </div>
-                        <button onclick="window.pywebview.api.open_monaco('${p.path}')" 
-                                style="background:#00D9FF;color:black;border:none;padding:8px 18px;border-radius:8px;font-weight:bold;cursor:pointer;">
-                            Abrir
-                        </button>
-                    `;
+                    div.innerHTML = `<div><strong style="color:white;">${escapeHTML(p.name)}</strong><br><small style="color:#667788;">${Number(p.file_count) || 0} archivos · ${Number(p.size_mb) || 0} MB</small></div><button style="background:#00D9FF;color:black;border:none;padding:8px 18px;border-radius:8px;font-weight:bold;cursor:pointer;">Abrir</button>`;
+                    div.querySelector('button').onclick = () => openIDE(p.id);
                     container.appendChild(div);
                 });
-            } catch(e) {
-                console.log("Error cargando proyectos");
-            }
+            } catch (_) { container.innerHTML = '<div style="color:#FF7777;">No se pudieron cargar los proyectos.</div>'; }
         }
 
         async function loadMemories() {
+            if (!apiReady()) return;
+            const container = byId('memory-list');
             try {
                 const memories = await window.pywebview.api.get_neural_memories();
-                const container = document.getElementById('memory-list');
-                container.innerHTML = '';
-
+                container.innerHTML = memories.length ? '' : '<div style="color:#667788;">Aún no hay recuerdos guardados.</div>';
+                refreshContext({ identity: {}, commands: [], projects: Array(memories.length).fill(0) });
+                byId('memory-count').innerText = memories.length;
+                byId('memory-categories').innerText = new Set(memories.map(m => m.category)).size;
+                byId('memory-state').innerText = memories.length ? 'SYNC' : 'IDLE';
                 memories.forEach(m => {
-                    const div = document.createElement('div');
-                    div.style.cssText = 'background:#0A0B10;border:1px solid #1F2633;border-radius:14px;padding:16px;';
-                    div.innerHTML = `
-                        <div style="color:#00D9FF;font-size:11px;margin-bottom:4px;">${m.category}</div>
-                        <div style="font-weight:bold;color:white;">${m.key}</div>
-                        <div style="color:#8899AA;margin-top:4px;">${m.value}</div>
-                    `;
+                    const div = document.createElement('div'); div.style.cssText = 'background:#0A0B10;border:1px solid #1F2633;border-radius:14px;padding:16px;';
+                    div.innerHTML = `<div style="color:#00D9FF;font-size:11px;margin-bottom:4px;">${escapeHTML(m.category)}</div><div style="font-weight:bold;color:white;">${escapeHTML(m.key)}</div><div style="color:#8899AA;margin-top:4px;">${escapeHTML(m.value)}</div>`;
                     container.appendChild(div);
                 });
-            } catch(e) {
-                console.log("Error cargando memorias");
-            }
+            } catch (_) { container.innerHTML = '<div style="color:#FF7777;">No se pudo cargar la memoria.</div>'; }
         }
 
-        function createNewProject() {
-            const name = prompt("Nombre del nuevo proyecto:");
-            if (name) {
-                window.pywebview.api.create_project(name).then(() => {
-                    loadProjects();
-                    alert("Proyecto creado exitosamente");
-                });
-            }
+        async function loadProfile() {
+            if (!apiReady()) return;
+            try {
+                const profile = await window.pywebview.api.get_profile();
+                ['nombre','segundo_nombre','edad','ubicacion','pronombres','idioma','zona_horaria','ocupacion','habilidades','intereses','objetivos','estilo_comunicacion','accesibilidad','preferencias','bio'].forEach(key => byId('profile-' + key).value = profile[key] || '');
+                if (profile.nombre) byId('welcome-text').innerText = `Hola ${profile.nombre}, soy LEGNA.`;
+            } catch (_) { byId('profile-status').innerText = 'No se pudo cargar el perfil.'; }
         }
 
-        function importProject() {
-            alert("Función de importación disponible en la versión completa");
+        async function saveProfile(event) {
+            event.preventDefault(); if (!apiReady()) return;
+            const status = byId('profile-status'); status.innerText = 'Guardando…';
+            const profile = Object.fromEntries(['nombre','segundo_nombre','edad','ubicacion','pronombres','idioma','zona_horaria','ocupacion','habilidades','intereses','objetivos','estilo_comunicacion','accesibilidad','preferencias','bio'].map(key => [key, byId('profile-' + key).value]));
+            try {
+                const result = await window.pywebview.api.save_profile(profile);
+                status.innerText = 'Perfil guardado localmente ✓';
+                const name = result.profile.nombre;
+                if (name) byId('welcome-text').innerText = `Hola ${name}, soy LEGNA.`;
+                loadMemories();
+            } catch (error) { status.innerText = 'Error: ' + error.message; }
         }
 
-        // Cargar datos al cambiar de sección
-        const originalShowSection = showSection;
-        window.showSection = function(id, btn) {
-            originalShowSection(id, btn);
-            
-            if (id === 'workspace') loadProjects();
-            if (id === 'memory') loadMemories();
+        function chooseExecutionMode(kind) {
+            return new Promise(resolve => {
+                const modal = byId('project-mode-modal');
+                const isTerminal = kind === 'terminal';
+                byId('project-mode-title').innerText = isTerminal ? '¿Cómo abrir la terminal?' : '¿Cómo abrir este proyecto?';
+                byId('project-mode-description').innerText = isTerminal ? 'Elige el nivel de permisos antes de iniciar LEGNA Terminal.' : 'Elige el nivel de permisos antes de iniciar el IDE.';
+                byId('project-mode-standard-desc').innerText = isTerminal ? 'Ejecuta comandos con tus permisos actuales.' : 'Permisos normales y recomendados.';
+                byId('project-mode-admin-desc').innerText = 'Windows solicitará confirmación UAC.';
+                byId('project-mode-standard').onclick = () => { modal.hidden = true; resolve('standard'); };
+                byId('project-mode-admin').onclick = () => { modal.hidden = true; resolve('admin'); };
+                modal.hidden = false;
+            });
+        }
+        async function openIDE(projectId) {
+            if (!projectId || !apiReady()) return;
+            const mode = await chooseExecutionMode('ide');
+            try { await window.pywebview.api.open_ide(projectId, mode); }
+            catch (error) { alert('No se pudo abrir LEGNA IDE: ' + error.message); }
+        }
+        async function openTerminal() {
+            if (!apiReady()) return;
+            const mode = await chooseExecutionMode('terminal');
+            try { await window.pywebview.api.open_terminal(mode); }
+            catch (error) { alert('No se pudo abrir la terminal: ' + error.message); }
         }
 
-        // CARGA
-        let p = 0;
-        let interval = setInterval(() => {
-            p++;
-            document.getElementById('progress').style.width = p + '%';
-            if(p >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    document.getElementById('splash').style.transform = 'translateY(-100%)';
-                    setTimeout(() => document.getElementById('splash').style.display = 'none', 1000);
-                }, 500);
-            }
-        }, 60);
-
-        function updateStats(cpu, ram) {
-            document.getElementById('cpu-val').innerText = cpu + '%';
-            document.getElementById('ram-val').innerText = ram + '%';
+        function askText({ title, description, confirmLabel, value = '', placeholder = '' }) {
+            return new Promise(resolve => {
+                const modal = byId('legna-modal'), input = byId('legna-modal-input');
+                byId('legna-modal-title').innerText = title; byId('legna-modal-description').innerText = description;
+                byId('legna-modal-confirm').innerText = confirmLabel; input.value = value; input.placeholder = placeholder;
+                const close = result => { modal.hidden = true; byId('legna-modal-confirm').onclick = null; byId('legna-modal-cancel').onclick = null; input.onkeydown = null; resolve(result); };
+                byId('legna-modal-confirm').onclick = () => close(input.value.trim());
+                byId('legna-modal-cancel').onclick = () => close(null);
+                input.onkeydown = event => { if (event.key === 'Enter') close(input.value.trim()); if (event.key === 'Escape') close(null); };
+                modal.hidden = false; setTimeout(() => input.focus(), 0);
+            });
         }
 
-        function setUserName(name) {
-            document.getElementById('welcome-text').innerText = "Hola " + name + ", soy LEGNA.";
+        async function importBiography() {
+            if (!apiReady()) return;
+            const status = byId('profile-status'); status.innerText = 'Selecciona un documento…';
+            try {
+                const path = await window.pywebview.api.select_biography_file();
+                if (!path) { status.innerText = ''; return; }
+                status.innerText = 'Leyendo y analizando localmente…';
+                const result = await window.pywebview.api.import_biography(path);
+                await loadProfile(); loadMemories();
+                status.innerText = result.saved.length ? `Biografía importada · ${result.saved.length} campos revisables` : 'Documento guardado como contexto importado.';
+            } catch (error) { status.innerText = 'No se pudo importar: ' + error.message; }
         }
+
+        async function createNewProject() {
+            if (!apiReady()) return;
+            const name = await askText({ title: 'Crear nuevo proyecto', description: 'Elige un nombre para el entorno de trabajo de LEGNA.', confirmLabel: 'CREAR PROYECTO', placeholder: 'Ejemplo: mi-aplicacion' });
+            if (!name) return;
+            try { await window.pywebview.api.create_project(name); await loadProjects(); }
+            catch (error) { alert('No se pudo crear el proyecto: ' + error.message); }
+        }
+        async function importProject() {
+            if (!apiReady()) return;
+            try {
+                const folder = await window.pywebview.api.select_project_directory();
+                if (!folder) return;
+                const modal = byId('project-import-modal'); byId('import-folder-name').innerText = `Carpeta seleccionada: ${folder}`;
+                const close = () => { modal.hidden = true; };
+                byId('import-reference').onclick = async () => { close(); await finishImport(folder, false); };
+                byId('import-move').onclick = async () => { close(); await finishImport(folder, true); };
+                byId('import-cancel').onclick = close; modal.hidden = false;
+            } catch (error) { alert('No se pudo seleccionar la carpeta: ' + error.message); }
+        }
+        async function finishImport(folder, move) {
+            try { await window.pywebview.api.import_project(folder, move); await loadProjects(); }
+            catch (error) { alert('No se pudo importar el proyecto: ' + error.message); }
+        }
+
+        function startInterface() {
+            loadSystemStats(); loadProfile(); loadMemories(); loadAgents();
+            setInterval(loadSystemStats, 2000);
+            let p = 0; const interval = setInterval(() => {
+                p += 4; byId('progress').style.width = p + '%';
+                if (p >= 100) { clearInterval(interval); setTimeout(() => { byId('splash').style.transform = 'translateY(-100%)'; setTimeout(() => byId('splash').style.display = 'none', 700); }, 250); }
+            }, 25);
+        }
+        window.addEventListener('pywebviewready', startInterface);
+        // Allows the page to remain usable in a regular browser preview.
+        setTimeout(() => { if (apiReady() && byId('splash').style.display !== 'none') startInterface(); }, 500);
     </script>
 </body>
 </html>

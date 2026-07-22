@@ -9,7 +9,7 @@
 
 ### 2. Monaco Editor (Syntax Highlighting Real)
 - `ui/monaco_editor.html` — Monaco Editor completo vía CDN
-- `ui/monaco_webview.py` — Integración con Flet WebView
+- `ui/monaco_webview.py` — Integración con interfaz heredada WebView
 - Botón **"Monaco"** en el editor para abrirlo
 
 ### 3. Sistema Multi-Modelo + Personalidad + Deep Analyzer
@@ -23,7 +23,7 @@
 |---------|---------|
 | `ui/real_terminal.py` | Terminal real con `subprocess` |
 | `ui/monaco_editor.html` | Monaco Editor (syntax highlighting) |
-| `ui/monaco_webview.py` | Puente entre Flet y Monaco |
+| `ui/monaco_webview.py` | Puente entre interfaz heredada y Monaco |
 | `ai/model_router.py` | Enrutador de múltiples modelos locales |
 | `ai/personality_engine.py` | Emociones y personalidad |
 

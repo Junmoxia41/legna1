@@ -12,8 +12,8 @@ from typing import List, Dict, Optional
 
 
 class ProjectManager:
-    def __init__(self, workspace_root: str = "/home/user/legna1/workspace"):
-        self.workspace_root = Path(workspace_root)
+    def __init__(self, workspace_root=None):
+        self.workspace_root = Path(workspace_root) if workspace_root else Path(__file__).resolve().parent / "workspace"
         self.projects_dir = self.workspace_root / "projects"
         self.projects_dir.mkdir(parents=True, exist_ok=True)
         
@@ -41,6 +41,18 @@ class ProjectManager:
         # Create basic structure
         (project_path / "src").mkdir(exist_ok=True)
         (project_path / "docs").mkdir(exist_ok=True)
+        main_file = project_path / "src" / "main.py"
+        readme_file = project_path / "README.md"
+        if not main_file.exists():
+            main_file.write_text(
+                "def main():\n"
+                "    print('LEGNA workspace listo')\n\n\n"
+                "if __name__ == '__main__':\n"
+                "    main()\n",
+                encoding="utf-8",
+            )
+        if not readme_file.exists():
+            readme_file.write_text(f"# {name}\n\nProyecto creado con LEGNA IDE.\n", encoding="utf-8")
         
         project_data = {
             "id": str(datetime.now().timestamp()),
@@ -48,8 +60,8 @@ class ProjectManager:
             "path": str(project_path),
             "description": description,
             "created_at": datetime.now().isoformat(),
-            "file_count": 0,
-            "size_mb": 0,
+            "file_count": 2,
+            "size_mb": round(sum(item.stat().st_size for item in project_path.rglob("*") if item.is_file()) / (1024 * 1024), 2),
             "type": "new"
         }
         

@@ -1,0 +1,1 @@
+window.LegnaIDEState = { workspace:null, documents:new Map(), activePath:null, tree:new Map() };

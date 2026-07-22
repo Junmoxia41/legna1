@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LEGNA IDE</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="vendor/monaco/vs/editor/editor.main.css">
+</head>
+<body>
+  <header class="ide-toolbar">
+    <div class="brand"><img src="assets/legna-ide-mark.svg" alt=""><span>LEGNA <b>IDE</b></span></div>
+    <div id="workspace-name" class="workspace-title">Cargando workspace…</div>
+    <div class="toolbar-actions"><button id="command-button" data-tip="Ctrl+Shift+P">⌘ Comandos</button><button id="save-button" data-tip="Ctrl+S">Guardar</button></div>
+  </header>
+  <main class="ide-shell">
+    <nav class="activity-bar" aria-label="Vistas del IDE">
+      <button class="activity active" data-view="explorer" data-tip="Explorer"><img src="assets/explorer.svg" alt="Explorer"></button>
+      <button class="activity" data-view="search" data-tip="Buscar archivos"><img src="assets/search.svg" alt="Buscar"></button>
+      <button class="activity" data-view="git" data-tip="Control Git"><img src="assets/git.svg" alt="Git"></button>
+      <button class="activity" data-view="ai" data-tip="Legna Code"><img src="assets/brain.svg" alt="IA"></button>
+      <button class="activity" data-view="plugins" data-tip="Plugins"><img src="assets/plugins.svg" alt="Plugins"></button>
+      <button class="activity terminal-toggle" data-view="terminal" data-tip="Terminal"><img src="assets/terminal.svg" alt="Terminal"></button>
+    </nav>
+    <aside class="explorer-panel"><div id="side-heading" class="panel-heading"><span id="side-title">EXPLORER</span><div id="side-actions"><button id="new-folder" data-tip="Nueva carpeta">□</button><button id="new-file" data-tip="Nuevo archivo">＋</button><button id="refresh-tree" data-tip="Actualizar">↻</button></div></div><div id="side-content"><div id="tree" class="tree" role="tree"></div></div></aside>
+    <section class="editor-zone"><div id="editor-empty" class="editor-empty"><img src="assets/legna-ide-mark.svg" alt=""><h2>LEGNA IDE</h2><p>Abre o crea un archivo desde el Explorer para comenzar.</p></div><div id="tabs" class="tabs" role="tablist"></div><div id="editor" aria-label="Editor de código"></div></section>
+  </main>
+  <section id="bottom-panel" class="bottom-panel" hidden><div class="panel-tabs"><button class="selected" data-panel="terminal">TERMINAL</button><button data-panel="problems">PROBLEMAS <span id="problem-count">0</span></button><button data-panel="output">SALIDA</button><button data-panel="ai">IA</button><button data-panel="git">GIT</button><button id="hide-panel">×</button></div><div id="terminal-panel" class="bottom-content"><div id="terminal-tabs" class="terminal-tabs"></div><pre id="terminal-output" class="terminal-output">Crea una terminal para empezar.</pre><div class="terminal-input"><button id="new-terminal">＋</button><input id="terminal-command" placeholder="Escribe un comando explícito y presiona Enter"><button id="run-terminal">Ejecutar</button></div></div><div id="problems-panel" class="bottom-content" hidden><div class="problems-actions"><button id="analyze-workspace">Analizar workspace</button><button id="fix-problem">Corregir con Legna Code</button></div><div id="problems-list"></div></div><div id="output-panel" class="bottom-content" hidden></div><div id="ai-panel" class="bottom-content" hidden><div class="ai-actions"><button data-ai="explain">Explicar</button><button data-ai="document">Documentar</button><button data-ai="tests">Pruebas</button><button data-ai="fix">Corregir</button><button data-ai="refactor">Refactorizar</button><button data-ai="optimize">Optimizar</button></div><pre id="ai-response" class="ai-response">Selecciona código o abre un archivo y elige una acción de Legna Code.</pre><div id="ai-apply-row" hidden><button id="ai-apply">Aplicar propuesta</button><span>Se aplicará solo tras tu confirmación.</span></div></div><div id="plugins-panel" class="bottom-content" hidden><div class="plugin-header"><span>PLUGINS DEL WORKSPACE</span><button id="plugins-refresh">Actualizar</button></div><div id="plugins-list" class="plugins-list"></div></div><div id="git-panel" class="bottom-content" hidden><div class="git-actions"><button id="git-refresh">Actualizar</button><button id="git-stage-all">Stage todo</button><button id="git-commit">Commit local</button><span id="git-branch"></span></div><div id="git-changes" class="git-changes"></div><pre id="git-diff" class="git-diff"></pre></div></section>
+  <div id="context-menu" class="context-menu" hidden></div>
+  <div id="search-overlay" class="search-overlay" hidden><div class="search-dialog"><div class="search-mode"><span id="search-title">IR A ARCHIVO</span><kbd id="search-shortcut">Ctrl+P</kbd></div><input id="search-input" autocomplete="off" placeholder="Escribe para buscar archivos…"><div id="search-results" class="search-results"></div><div class="search-hint">Enter abre · Esc cierra · Ctrl+Shift+F búsqueda de texto</div></div></div>
+  <div id="execution-dialog" class="execution-dialog" hidden><div class="execution-card"><div class="dialog-kicker">LEGNA IDE · EJECUCIÓN</div><h3>¿Cómo quieres abrir este workspace?</h3><p>El modo estándar protege el sistema. El modo administrador solicitará confirmación real de Windows y abrirá una instancia elevada.</p><div class="execution-options"><button id="mode-standard"><b>Modo estándar</b><span>Editar, terminal y herramientas con tus permisos actuales.</span></button><button id="mode-admin"><b>Solicitar administrador</b><span>Para tareas que requieren privilegios del sistema.</span></button></div><div id="execution-status" class="execution-status"></div></div></div>
+  <div id="ide-dialog" class="ide-dialog-overlay" hidden><div class="ide-dialog" role="dialog" aria-modal="true" aria-labelledby="ide-dialog-title"><div class="dialog-kicker">LEGNA IDE · WORKSPACE</div><h3 id="ide-dialog-title">Nuevo archivo</h3><p id="ide-dialog-description">Crea un documento dentro del proyecto actual.</p><div class="dialog-fields"><label>Nombre<input id="ide-dialog-name" maxlength="120" autocomplete="off" placeholder="Ejemplo: main"></label><label id="ide-dialog-format-row">Formato<input id="ide-dialog-format" maxlength="20" list="file-formats" placeholder=".py"><datalist id="file-formats"><option value=".py"><option value=".js"><option value=".ts"><option value=".html"><option value=".css"><option value=".json"><option value=".md"><option value=".yaml"><option value=".sql"><option value=".txt"></datalist></label></div><div class="dialog-actions"><button id="ide-dialog-cancel">Cancelar</button><button id="ide-dialog-confirm">Crear archivo</button></div></div></div>
+  <footer class="statusbar"><span id="status">LISTO</span><span id="language">PLAINTEXT</span><span id="cursor">Ln 1, Col 1</span><span>LEGNA IDE • LOCAL WORKSPACE</span></footer>
+  <script src="vendor/monaco/vs/loader.js"></script>
+  <script>require.config({ paths: { vs: "vendor/monaco/vs" } });</script>
+  <script src="js/state.js"></script><script src="js/editor.js"></script><script src="js/app.js"></script>
+</body></html>

@@ -15,7 +15,7 @@
 ## 1. VISIÓN GENERAL
 
 Legna se convertirá en un **entorno completo** que combina:
-- Interfaz de escritorio (Flet + HTML/JS)
+- Interfaz de escritorio (interfaz heredada + HTML/JS)
 - Workspace con gestión de proyectos
 - Chat con memoria conversacional
 - Editor de código integrado
@@ -40,7 +40,7 @@ Todo se integrará manteniendo la arquitectura modular actual (KnowledgeEngine +
   - Icono grande + botón "Crear"
 
 - **Botón "Importar Proyecto"**:
-  - Abre un diálogo nativo de selección de carpeta (usando `tkinter.filedialog` o Flet FilePicker)
+  - Abre un diálogo nativo de selección de carpeta (usando `tkinter.filedialog` o interfaz heredada FilePicker)
   - Opciones:
     1. **Mover proyecto** a `/home/user/legna1/workspace/projects/`
     2. **Dejar en ubicación original** + crear symlink / referencia
@@ -60,7 +60,7 @@ Todo se integrará manteniendo la arquitectura modular actual (KnowledgeEngine +
 
 **Tecnologías**:
 - Usar `monaco-editor` (web) dentro de la UI HTML
-- O componente Flet avanzado + CodeMirror si es posible
+- O componente interfaz heredada avanzado + CodeMirror si es posible
 - O integrar **PyWebView** con Monaco Editor
 
 **Características iniciales**:
@@ -189,8 +189,8 @@ Todo se integrará manteniendo la arquitectura modular actual (KnowledgeEngine +
 │   ├── neural_memory.py           # NUEVO (categorías + tarjetas)
 │   └── category_detector.py       # NUEVO
 ├── ui/
-│   ├── workspace_view.py          # NUEVO (Flet)
-│   ├── code_editor.py             # NUEVO (Flet + Monaco)
+│   ├── workspace_view.py          # NUEVO (interfaz heredada)
+│   ├── code_editor.py             # NUEVO (interfaz heredada + Monaco)
 │   ├── memory_brain_view.py       # NUEVO
 │   └── conversation_panel.py      # NUEVO
 ├── tools/
